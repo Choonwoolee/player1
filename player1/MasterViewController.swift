@@ -8,8 +8,9 @@
 
 import UIKit
 import CoreData
+import MediaPlayer
 
-class MasterViewController: UITableViewController, NSFetchedResultsControllerDelegate {
+class MasterViewController: UITableViewController, MPMediaPickerControllerDelegate, NSFetchedResultsControllerDelegate {
 
     var managedObjectContext: NSManagedObjectContext? = nil
 
@@ -23,10 +24,13 @@ class MasterViewController: UITableViewController, NSFetchedResultsControllerDel
         // Do any additional setup after loading the view, typically from a nib.
         self.navigationItem.leftBarButtonItem = self.editButtonItem()
 
-        let addButton = UIBarButtonItem(barButtonSystemItem: .Add, target: self, action: "insertNewObject:")
+        let addButton = UIBarButtonItem(barButtonSystemItem: .Add, target: self, action: "showMediaPicker:")
         self.navigationItem.rightBarButtonItem = addButton
     }
 
+    
+    
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -39,7 +43,7 @@ class MasterViewController: UITableViewController, NSFetchedResultsControllerDel
              
         // If appropriate, configure the new managed object.
         // Normally you should use accessor methods, but using KVC here avoids the need to add a custom class to the template.
-        newManagedObject.setValue(NSDate(), forKey: "timeStamp")
+        newManagedObject.setValue(NSDate(), forKey: "title")
              
         // Save the context.
         var error: NSError? = nil
@@ -50,6 +54,56 @@ class MasterViewController: UITableViewController, NSFetchedResultsControllerDel
             abort()
         }
     }
+    
+    func saveSong(aMediaItem: MPMediaItem){
+        let context = self.fetchedResultsController.managedObjectContext
+        let entity = self.fetchedResultsController.fetchRequest.entity!
+        let newManagedObject = NSEntityDescription.insertNewObjectForEntityForName(entity.name!, inManagedObjectContext: context) as NSManagedObject
+        
+        // If appropriate, configure the new managed object.
+        // Normally you should use accessor methods, but using KVC here avoids the need to add a custom class to the template.
+        
+        println(aMediaItem.valueForProperty(MPMediaItemPropertyPersistentID))
+        
+        newManagedObject.setValue(aMediaItem.valueForProperty(MPMediaItemPropertyTitle), forKey: "title")
+        newManagedObject.setValue(aMediaItem.valueForProperty(MPMediaItemPropertyPersistentID), forKey: "audioId")
+        
+        // Save the context.
+        var error: NSError? = nil
+        if !context.save(&error) {
+            println("Unresolved error \(error), \(error)")
+        }
+
+    }
+    
+    func showMediaPicker(sender: AnyObject){
+        let mediaPicker = MPMediaPickerController(mediaTypes: .Music)
+        
+        mediaPicker.delegate = self;
+        
+        mediaPicker.allowsPickingMultipleItems = false;
+        mediaPicker.prompt = "Select songs to play";
+        
+        presentViewController(mediaPicker, animated: true, completion: {})
+        
+    }
+    
+    func mediaPicker(mediaPicker: MPMediaPickerController, didPickMediaItems  mediaItems:MPMediaItemCollection) -> Void
+    {
+        var aMediaItem = mediaItems.items[0] as MPMediaItem
+        
+        
+        //fillData(aMediaItem);
+        println(aMediaItem.valueForProperty(MPMediaItemPropertyTitle));
+        println(aMediaItem.valueForProperty(MPMediaItemPropertyPersistentID));
+        saveSong(aMediaItem)
+        self.dismissViewControllerAnimated(true, completion: {});
+    }
+    
+    func mediaPickerDidCancel(mediaPicker: MPMediaPickerController) {
+        self.dismissViewControllerAnimated(true, completion: {});
+    }
+
 
     // MARK: - Segues
 
@@ -58,6 +112,7 @@ class MasterViewController: UITableViewController, NSFetchedResultsControllerDel
             if let indexPath = self.tableView.indexPathForSelectedRow() {
             let object = self.fetchedResultsController.objectAtIndexPath(indexPath) as NSManagedObject
             (segue.destinationViewController as DetailViewController).detailItem = object
+            (segue.destinationViewController as DetailViewController).managedObjectContext = self.managedObjectContext
             }
         }
     }
@@ -101,7 +156,7 @@ class MasterViewController: UITableViewController, NSFetchedResultsControllerDel
 
     func configureCell(cell: UITableViewCell, atIndexPath indexPath: NSIndexPath) {
         let object = self.fetchedResultsController.objectAtIndexPath(indexPath) as NSManagedObject
-        cell.textLabel.text = object.valueForKey("timeStamp")!.description
+        cell.textLabel!.text = object.valueForKey("title")!.description
     }
 
     // MARK: - Fetched results controller
@@ -113,14 +168,14 @@ class MasterViewController: UITableViewController, NSFetchedResultsControllerDel
         
         let fetchRequest = NSFetchRequest()
         // Edit the entity name as appropriate.
-        let entity = NSEntityDescription.entityForName("Event", inManagedObjectContext: self.managedObjectContext!)
+        let entity = NSEntityDescription.entityForName("Audio", inManagedObjectContext: self.managedObjectContext!)
         fetchRequest.entity = entity
         
         // Set the batch size to a suitable number.
         fetchRequest.fetchBatchSize = 20
         
         // Edit the sort key as appropriate.
-        let sortDescriptor = NSSortDescriptor(key: "timeStamp", ascending: false)
+        let sortDescriptor = NSSortDescriptor(key: "title", ascending: false)
         let sortDescriptors = [sortDescriptor]
         
         fetchRequest.sortDescriptors = [sortDescriptor]

@@ -15,6 +15,9 @@
 		A83802831A11919F0094BFD5 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A83802821A11919F0094BFD5 /* Images.xcassets */; };
 		A83802861A11919F0094BFD5 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = A83802841A11919F0094BFD5 /* LaunchScreen.xib */; };
 		A83802921A11919F0094BFD5 /* player1Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A83802911A11919F0094BFD5 /* player1Tests.swift */; };
+		A87B8BC31A2565CE00D0954D /* NSTimeInterval+TimeComponents.swift in Sources */ = {isa = PBXBuildFile; fileRef = A87B8BC21A2565CE00D0954D /* NSTimeInterval+TimeComponents.swift */; };
+		A89A94CC1A31319A00ED61A3 /* Audio.swift in Sources */ = {isa = PBXBuildFile; fileRef = A89A94CB1A31319A00ED61A3 /* Audio.swift */; };
+		A89A94CE1A31319B00ED61A3 /* AudioBookmark.swift in Sources */ = {isa = PBXBuildFile; fileRef = A89A94CD1A31319B00ED61A3 /* AudioBookmark.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -40,6 +43,9 @@
 		A838028B1A11919F0094BFD5 /* player1Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = player1Tests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		A83802901A11919F0094BFD5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A83802911A11919F0094BFD5 /* player1Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = player1Tests.swift; sourceTree = "<group>"; };
+		A87B8BC21A2565CE00D0954D /* NSTimeInterval+TimeComponents.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSTimeInterval+TimeComponents.swift"; sourceTree = "<group>"; };
+		A89A94CB1A31319A00ED61A3 /* Audio.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Audio.swift; sourceTree = "<group>"; };
+		A89A94CD1A31319B00ED61A3 /* AudioBookmark.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AudioBookmark.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -88,7 +94,10 @@
 				A83802821A11919F0094BFD5 /* Images.xcassets */,
 				A83802841A11919F0094BFD5 /* LaunchScreen.xib */,
 				A83802781A11919F0094BFD5 /* player1.xcdatamodeld */,
+				A89A94CD1A31319B00ED61A3 /* AudioBookmark.swift */,
+				A89A94CB1A31319A00ED61A3 /* Audio.swift */,
 				A83802741A11919F0094BFD5 /* Supporting Files */,
+				A87B8BC21A2565CE00D0954D /* NSTimeInterval+TimeComponents.swift */,
 			);
 			path = player1;
 			sourceTree = "<group>";
@@ -167,6 +176,7 @@
 				TargetAttributes = {
 					A83802701A11919F0094BFD5 = {
 						CreatedOnToolsVersion = 6.1;
+						DevelopmentTeam = 7X47X43BM9;
 					};
 					A838028A1A11919F0094BFD5 = {
 						CreatedOnToolsVersion = 6.1;
@@ -218,9 +228,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A89A94CC1A31319A00ED61A3 /* Audio.swift in Sources */,
+				A87B8BC31A2565CE00D0954D /* NSTimeInterval+TimeComponents.swift in Sources */,
 				A838027A1A11919F0094BFD5 /* player1.xcdatamodeld in Sources */,
 				A83802771A11919F0094BFD5 /* AppDelegate.swift in Sources */,
 				A838027C1A11919F0094BFD5 /* MasterViewController.swift in Sources */,
+				A89A94CE1A31319B00ED61A3 /* AudioBookmark.swift in Sources */,
 				A838027E1A11919F0094BFD5 /* DetailViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -344,9 +357,12 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = player1/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 			};
 			name = Debug;
 		};
@@ -354,9 +370,12 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = player1/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 			};
 			name = Release;
 		};
@@ -413,6 +432,7 @@
 				A83802971A11919F0094BFD5 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		A83802981A11919F0094BFD5 /* Build configuration list for PBXNativeTarget "player1Tests" */ = {
 			isa = XCConfigurationList;
@@ -421,6 +441,7 @@
 				A838029A1A11919F0094BFD5 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 
